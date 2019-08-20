@@ -1,21 +1,21 @@
 language: python
 branches:
   only:
-  - master
-  - dev
-  - "/^release-.*$/"
+    - master
+    - dev
+    - "/^release-.*$/"
+    - "/^v\\d+\\.\\d+\\.\\d+$/"
 python:
-- '3.6'
+  - '3.6'
 install:
-- pip install pipenv
-- pipenv install --dev
+  - pip install pipenv
+  - pipenv install --dev
 script:
-- python setup.py test
+  - python setup.py test
 deploy:
   provider: pypi
   user: wqy
   on:
-    branch: master
     tags: true
   distributions: sdist bdist_wheel
   skip_existing: true
