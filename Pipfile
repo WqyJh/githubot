@@ -14,7 +14,7 @@ twine = "*"
 
 [packages]
 pygithub = "*"
-click = "*"
+docopt = "*"
 
 [requires]
 python_version = "3.6"
