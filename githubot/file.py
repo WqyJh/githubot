@@ -35,10 +35,35 @@ def download_files(repo, files):
         download_file(repo, f)
 
 
-def file(token, repo, files):
+def upload_file(repo, filename):
+    try:
+        contents = repo.get_contents(filename)
+    except Exception:
+        contents = None
+
+    with open(filename, 'rb') as f:
+        file_content = f.read()
+
+    if contents:
+        repo.update_file(contents.path, 'Updated by githubot', file_content,
+                         contents.sha)
+    else:
+        repo.create_file(filename, 'Uploaded by githubot', file_content)
+
+
+def upload_files(repo, files):
+    for f in files:
+        upload_file(repo, f)
+
+
+def file(token, repo, files, download=True):
     g = Github(token)
     repo = g.get_repo(repo)
-    download_files(repo, files)
+
+    if download:
+        download_files(repo, files)
+    else:
+        upload_files(repo, files)
 
 
 def main():
@@ -47,8 +72,9 @@ def main():
     token = args['--token']
     repo = args['--repo']
     files = args['FILES']
+    download = args['download']
 
-    file(token, repo, files)
+    file(token, repo, files, download=download)
 
 
 if __name__ == '__main__':
