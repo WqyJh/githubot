@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/badge/LICENCE-MIT-brightgreen.svg)](https://raw.githubusercontent.com/WqyJh/githubot/master/LICENSE)
 
 
-Command line tool to use Github's API to automate some works:
+Command line tool to use Github's API for automation:
 
 - [x] create release with assets
 - [ ] TODO
