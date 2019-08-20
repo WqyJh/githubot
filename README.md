@@ -1,5 +1,9 @@
 # githubot
 
+[![Build Status](https://travis-ci.org/WqyJh/githubot.svg?branch=master)](https://travis-ci.org/WqyJh/githubot)
+[![license](https://img.shields.io/badge/LICENCE-MIT-brightgreen.svg)](https://raw.githubusercontent.com/WqyJh/githubot/master/LICENSE)
+
+
 Command line tool to use Github's API to automate some works:
 
 - [x] create release with assets
