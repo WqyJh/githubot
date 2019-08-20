@@ -7,7 +7,7 @@ Usage: githubot release --token=TOKEN --repo=REPO
 
 Options:
     --token=TOKEN           Github access token.
-    -r=REPO --repo=REPO             Repo full name like: owner/repo.
+    -r=REPO --repo=REPO     Repo full name like: owner/repo.
     --tag=TAG               Tag name for the release. If the tag does not
                             exist it will be created on default branch.
     --title=TITLE           Title for the release.

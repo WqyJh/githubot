@@ -24,5 +24,8 @@ if __name__ == '__main__':
     if args['<command>'] == 'release':
         from githubot import release
         release.main()
+    elif args['<command>'] == 'file':
+        from githubot import file
+        file.main()
     else:
         pass
