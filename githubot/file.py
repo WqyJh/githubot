@@ -1,5 +1,5 @@
 '''
-File management.
+Files management.
 
 Usage: githubot file upload --token=TOKEN --repo=REPO  [FILES...]
        githubot file download --token=TOKEN --repo=REPO  [FILES...]

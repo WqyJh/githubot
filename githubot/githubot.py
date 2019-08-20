@@ -8,7 +8,9 @@ options:
     -v --version   Show version.
 
 Subcommand:
-release
+
+release     Releases management.
+file        Files management.
 '''
 
 import runpy
