@@ -104,3 +104,29 @@ file1 file2
 ```
 
 **Note** that the `FILES` argument here cannot contains wildcard.
+
+
+## Development
+
+- bumping 0.3.0 (PYPI)
+- auto-changelog 1.15.0 (NPM)
+
+The release processing is as follow:
+
+1. Calculate semantic version
+    ```bash
+    bumping
+    ```
+2. Create release branch from dev
+    ```bash
+    git checkout dev
+    git pull origin dev
+    git checkout -b release-<version>
+    ```
+3. Modify the version and commit
+4. Generate changelog and commit
+    ```bash
+    auto-changelog --latest-version <version>
+    ```
+5. Merge to master branch
+6. Tag version to master branch
