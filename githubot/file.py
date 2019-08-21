@@ -27,9 +27,7 @@ def get_contents(repo, filename):
         pass
 
 
-def download_file(repo, filename):
-    contents = repo.get_contents(filename)
-
+def download_contents(contents):
     # TODO: check if the path is an absolute path
     # if so, then convert it to relative.
     base = os.path.dirname(contents.path)
@@ -40,16 +38,37 @@ def download_file(repo, filename):
         f.write(base64.b64decode(contents.content))
 
 
+def download_file(repo, filename):
+    contents = repo.get_contents(filename)
+
+    if not contents:
+        print('{} does not exist'.format(filename))
+        return
+
+    # single file
+    if not isinstance(contents, Sequence):
+        download_contents(contents)
+        return
+
+    # a set of files
+    while contents:
+        file_content = contents.pop(0)
+        if file_content.type == 'dir':
+            contents.extend(repo.get_contents(file_content.path))
+        else:
+            download_contents(file_content)
+
+
 def download_files(repo, files):
     for f in files:
-        download_file(repo, f)
+        # Convert `/path/to/dir/` to `/path/to/dir`
+        # Because github api doesn't support the last
+        # slash of the directory path.
+        download_file(repo, f.rstrip('/'))
 
 
 def upload_file(repo, filename):
-    try:
-        contents = repo.get_contents(filename)
-    except Exception:
-        contents = None
+    contents = get_contents(repo, filename)
 
     with open(filename, 'rb') as f:
         file_content = f.read()
@@ -93,7 +112,10 @@ def delete_file(repo, filename):
 
 def delete_files(repo, files):
     for f in files:
-        delete_file(repo, f)
+        # Convert `/path/to/dir/` to `/path/to/dir`
+        # Because github api doesn't support the last
+        # slash of the directory path.
+        delete_file(repo, f.rstrip('/'))
 
 
 def main():
