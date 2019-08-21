@@ -42,13 +42,14 @@ For example:
 Create a release to repo `WqyJh/test` with assets under the path of `assets/`.
 
 ```bash
-githubot release --token <my_github_token> --repo WqyJh/test assets/*
+githubot release --token <github_token> --repo WqyJh/test assets/*
 ```
 
 Create a release and specify `tag`, `title` and `message` for it.
+
 ```bash
 githubot release \
---token <my_github_token> \
+--token <github_token> \
 --repo WqyJh/test \
 --tag test_tag \
 --title "This is an test title" \
@@ -61,7 +62,7 @@ You can specify files in the following manner:
 
 ```bash
 --assets file1 file2
---assets path/*
+--assets path/* # wildcard
 ```
 
 ### Use github repo as cloud storage
@@ -83,8 +84,8 @@ Options:
 Upload files to github repo `WqyJh/test`.
 
 ```bash
-./run.py file download \
---token 136a3799903345eeef578be789ee16b284101142 \
+./run.py file upload \
+--token <github_token> \
 --repo WqyJh/test \
 file1 file2 file*
 ```
@@ -98,12 +99,24 @@ Download files from github repo `WqyJh/test`.
 
 ```bash
 ./run.py file download \
---token 136a3799903345eeef578be789ee16b284101142 \
+--token <github_token> \
 --repo WqyJh/test \
-file1 file2
+file1 dir1 dir2/
 ```
 
-**Note** that the `FILES` argument here cannot contains wildcard.
+**Note** that the `FILES` argument here cannot contains wildcard, but it can contains directories.
+
+
+#### Delete files
+
+Delete files from github repo.
+
+```bash
+./run.py file delete \
+--token <github_token> \
+--repo Wqyjh/test \
+file1 dir1 dir2/
+```
 
 
 ## Development
@@ -115,12 +128,12 @@ The release processing is as follow:
 
 1. Calculate semantic version
     ```bash
+    git checkout dev
+    git pull origin dev
     bumping
     ```
 2. Create release branch from dev
     ```bash
-    git checkout dev
-    git pull origin dev
     git checkout -b release-<version>
     ```
 3. Modify the version and commit
