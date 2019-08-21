@@ -42,13 +42,14 @@ For example:
 Create a release to repo `WqyJh/test` with assets under the path of `assets/`.
 
 ```bash
-githubot release --token <my_github_token> --repo WqyJh/test assets/*
+githubot release --token <github_token> --repo WqyJh/test assets/*
 ```
 
 Create a release and specify `tag`, `title` and `message` for it.
+
 ```bash
 githubot release \
---token <my_github_token> \
+--token <github_token> \
 --repo WqyJh/test \
 --tag test_tag \
 --title "This is an test title" \
@@ -83,8 +84,8 @@ Options:
 Upload files to github repo `WqyJh/test`.
 
 ```bash
-./run.py file download \
---token 136a3799903345eeef578be789ee16b284101142 \
+./run.py file upload \
+--token <github_token> \
 --repo WqyJh/test \
 file1 file2 file*
 ```
@@ -98,7 +99,7 @@ Download files from github repo `WqyJh/test`.
 
 ```bash
 ./run.py file download \
---token 136a3799903345eeef578be789ee16b284101142 \
+--token <github_token> \
 --repo WqyJh/test \
 file1 file2
 ```
