@@ -139,7 +139,7 @@ The release processing is as follow:
 3. Modify the version and commit
 4. Generate changelog and commit
     ```bash
-    auto-changelog --latest-version <version>
+    auto-changelog --latest-version <version> --tag-prefix v
     ```
 5. Merge to master branch
 6. Tag version to master branch
