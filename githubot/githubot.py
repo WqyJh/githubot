@@ -20,7 +20,8 @@ from docopt import docopt
 from githubot import __version__
 from githubot import release
 
-if __name__ == '__main__':
+
+def main():
     args = docopt(__doc__, version=__version__, options_first=True)
 
     if args['<command>'] == 'release':
@@ -31,3 +32,7 @@ if __name__ == '__main__':
         file.main()
     else:
         pass
+
+
+if __name__ == '__main__':
+    main()
