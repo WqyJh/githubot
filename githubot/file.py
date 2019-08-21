@@ -13,13 +13,13 @@ Options:
 import os
 import base64
 
+from typing import Sequence
+
 from docopt import docopt
 from github import Github
 
 
-def download_file(repo, filename):
-    contents = repo.get_contents(filename)
-
+def download_contents(contents):
     # TODO: check if the path is an absolute path
     # if so, then convert it to relative.
     base = os.path.dirname(contents.path)
@@ -28,6 +28,24 @@ def download_file(repo, filename):
 
     with open(contents.path, 'wb') as f:
         f.write(base64.b64decode(contents.content))
+
+
+def download_file(repo, filename):
+    contents = repo.get_contents(filename)
+
+    # single file
+    if not isinstance(contents, Sequence):
+        download_contents(contents)
+        return
+
+    # a set of files
+    while contents:
+        file_content = contents.pop(0)
+        if file_content.type == 'dir':
+            contents.extend(repo.get_contents(file_content.path))
+        else:
+            print(file_content)
+            download_contents(file_content)
 
 
 def download_files(repo, files):
@@ -78,4 +96,4 @@ def main():
 
 
 if __name__ == '__main__':
-    download_file()
+    main()
