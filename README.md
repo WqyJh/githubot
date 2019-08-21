@@ -128,12 +128,12 @@ The release processing is as follow:
 
 1. Calculate semantic version
     ```bash
+    git checkout dev
+    git pull origin dev
     bumping
     ```
 2. Create release branch from dev
     ```bash
-    git checkout dev
-    git pull origin dev
     git checkout -b release-<version>
     ```
 3. Modify the version and commit
