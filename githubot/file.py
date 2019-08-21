@@ -3,6 +3,7 @@ Files management.
 
 Usage: githubot file upload --token=TOKEN --repo=REPO  [FILES...]
        githubot file download --token=TOKEN --repo=REPO  [FILES...]
+       githubot file delete --token=TOKEN --repo=REPO  [FILES...]
 
 Options:
     --token=TOKEN           Github access token.
@@ -13,8 +14,17 @@ Options:
 import os
 import base64
 
+from typing import Sequence
+
 from docopt import docopt
 from github import Github
+
+
+def get_contents(repo, filename):
+    try:
+        return repo.get_contents(filename)
+    except Exception:
+        pass
 
 
 def download_file(repo, filename):
@@ -56,14 +66,34 @@ def upload_files(repo, files):
         upload_file(repo, f)
 
 
-def file(token, repo, files, download=True):
-    g = Github(token)
-    repo = g.get_repo(repo)
+def delete_single(repo, content):
+    repo.delete_file(content.path, 'Deleted by githubot', content.sha)
 
-    if download:
-        download_files(repo, files)
-    else:
-        upload_files(repo, files)
+
+def delete_file(repo, filename):
+    contents = get_contents(repo, filename)
+
+    if not contents:
+        print('{} does not exist'.format(filename))
+        return
+
+    # single file
+    if not isinstance(contents, Sequence):
+        delete_single(repo, contents)
+        return
+
+    # a set of files
+    while contents:
+        file_content = contents.pop(0)
+        if file_content.type == 'dir':
+            contents.extend(repo.get_contents(file_content.path))
+        else:
+            delete_single(repo, file_content)
+
+
+def delete_files(repo, files):
+    for f in files:
+        delete_file(repo, f)
 
 
 def main():
@@ -72,10 +102,17 @@ def main():
     token = args['--token']
     repo = args['--repo']
     files = args['FILES']
-    download = args['download']
 
-    file(token, repo, files, download=download)
+    g = Github(token)
+    repo = g.get_repo(repo)
+
+    if args['download']:
+        download_files(repo, files)
+    elif args['upload']:
+        upload_files(repo, files)
+    elif args['delete']:
+        delete_files(repo, files)
 
 
 if __name__ == '__main__':
-    download_file()
+    main()
