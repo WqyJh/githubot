@@ -62,7 +62,7 @@ You can specify files in the following manner:
 
 ```bash
 --assets file1 file2
---assets path/*
+--assets path/* # wildcard
 ```
 
 ### Use github repo as cloud storage
@@ -101,10 +101,22 @@ Download files from github repo `WqyJh/test`.
 ./run.py file download \
 --token <github_token> \
 --repo WqyJh/test \
-file1 file2
+file1 dir1 dir2/
 ```
 
-**Note** that the `FILES` argument here cannot contains wildcard.
+**Note** that the `FILES` argument here cannot contains wildcard, but it can contains directories.
+
+
+#### Delete files
+
+Delete files from github repo.
+
+```bash
+./run.py file delete \
+--token <github_token> \
+--repo Wqyjh/test \
+file1 dir1 dir2/
+```
 
 
 ## Development
