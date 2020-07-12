@@ -19,6 +19,8 @@ from typing import Sequence
 from docopt import docopt
 from github import Github
 
+from githubot import config
+
 
 def get_contents(repo, filename):
     try:
@@ -77,12 +79,14 @@ def upload_file(repo, filename):
         repo.update_file(contents.path, 'Updated by githubot', file_content,
                          contents.sha)
     else:
+        filename = os.path.basename(filename)
         repo.create_file(filename, 'Uploaded by githubot', file_content)
 
 
 def upload_files(repo, files):
     for f in files:
-        upload_file(repo, f)
+        upload_file(repo, os.path.abspath(f))
+        print(f'Uploaded: https://raw.githubusercontent.com/{config.config["repo"]}/master/{os.path.basename(f)}')
 
 
 def delete_single(repo, content):
