@@ -1,10 +1,4 @@
 language: python
-branches:
-  only:
-    - master
-    - dev
-    - "/^release-.*$/"
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
 python:
   - '3.6'
 install:
